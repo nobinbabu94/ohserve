@@ -1,0 +1,48 @@
+import Link from "next/link";
+import Logo from "@/components/Logo";
+import { companyInfo } from "@/lib/data";
+
+const navLinks = [
+  { href: "/services", label: "Services" },
+  { href: "/membership", label: "Property Care" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Header() {
+  return (
+    <header className="border-b border-line bg-paper sticky top-0 z-40">
+      <div className="max-w-content mx-auto px-6 h-20 flex items-center justify-between gap-6">
+        <Link href="/" className="focus-ring rounded-sm shrink-0">
+          <Logo className="h-9 w-auto" />
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-sm font-medium text-ink/70 hover:text-ink transition-colors focus-ring rounded-sm"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        <a
+          href={`tel:${companyInfo.phone.replace(/\s/g, "")}`}
+          className="hidden sm:inline-flex items-center rounded-full bg-ink text-paper px-5 py-2.5 text-sm font-semibold hover:bg-orange-dark transition-colors focus-ring"
+        >
+          Book Now
+        </a>
+
+        <Link
+          href="/contact"
+          className="sm:hidden inline-flex items-center rounded-full bg-ink text-paper px-4 py-2 text-sm font-semibold focus-ring"
+        >
+          Book
+        </Link>
+      </div>
+    </header>
+  );
+}
