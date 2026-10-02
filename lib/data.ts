@@ -324,6 +324,7 @@ export const companyInfo = {
   name: "OhServe Solutions",
   legalName: "OhServe Solutions Private Limited",
   phone: "+91 9074205288",
+  whatsappNumber: "919074205288",
   email: "info@ohserve.com",
   address:
     "1st Floor, opposite Municipal Townhall, Thirunilath Housing Colony, South Kalamassery, Kalamassery, Ernakulam, Kerala 682033",

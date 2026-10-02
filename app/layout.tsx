@@ -3,6 +3,7 @@ import { Sora, Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ContactDock from "@/components/ContactDock";
 
 const sora = Sora({
   subsets: ["latin"],
@@ -29,10 +30,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${sora.variable} ${inter.variable}`}>
-      <body className="bg-paper text-ink font-sans antialiased">
+      <body className="bg-paper text-ink font-sans antialiased pb-16 md:pb-0">
         <Header />
         <main>{children}</main>
         <Footer />
+        <ContactDock />
       </body>
     </html>
   );

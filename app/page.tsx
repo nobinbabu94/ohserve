@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { ShieldCheck, BadgeCheck } from "lucide-react";
 import IconTile from "@/components/IconTile";
+import HeroSlider from "@/components/HeroSlider";
 import { categories } from "@/lib/data";
-import SpotlightSection from "@/components/SpotlightSection";
 
 // Flatten a curated set of popular services across categories for the
 // "Most booked services" grid, the way Urban Company mixes categories together.
@@ -48,36 +48,18 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Hero banner */}
-      <section className="max-w-content mx-auto px-6">
-        <div className="rounded-3xl bg-ink text-paper px-8 py-12 sm:px-14 sm:py-16 grid gap-8 md:grid-cols-2 md:items-center">
-          <div>
-            <h2 className="font-display font-bold text-3xl sm:text-4xl leading-[1.15]">
-              A cleaner, safer home — without the hassle.
-            </h2>
-            <p className="text-paper/70 mt-4 max-w-sm">
-              Deep cleaning, repairs, and installs, done by trained
-              professionals who show up when they say they will.
-            </p>
-            <Link
-              href="/services/cleaning/deep-cleaning"
-              className="inline-flex items-center justify-center rounded-full bg-orange text-paper px-7 py-3.5 text-sm font-semibold hover:bg-orange-dark transition-colors mt-7 focus-ring"
-            >
-              Book now
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Stat value="500+" label="Properties managed" />
-            <Stat value="98%" label="Client satisfaction" />
-            <Stat value="24h" label="Response time" />
-            <Stat value="6" label="Service categories" />
-          </div>
+      {/* Hero banner — auto-playing slider, no search bar */}
+      <HeroSlider />
+
+      {/* Trust stats */}
+      <section className="max-w-content mx-auto px-6 pt-10">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Stat value="500+" label="Properties managed" />
+          <Stat value="98%" label="Client satisfaction" />
+          <Stat value="24h" label="Response time" />
+          <Stat value="6" label="Service categories" />
         </div>
       </section>
-          <section className="bg-mist border-y border-line">
-        <SpotlightSection />
-      </section>
-
 
       {/* Most booked services */}
       <section className="max-w-content mx-auto px-6 py-20">
@@ -108,7 +90,7 @@ export default function HomePage() {
           })}
         </div>
       </section>
-  
+
       {/* Categories, in full */}
       <section className="bg-mist border-y border-line">
         <div className="max-w-content mx-auto px-6 py-20">
@@ -150,9 +132,9 @@ export default function HomePage() {
 
 function Stat({ value, label }: { value: string; label: string }) {
   return (
-    <div className="rounded-2xl bg-paper/10 px-5 py-4">
-      <p className="font-display font-bold text-2xl">{value}</p>
-      <p className="text-xs text-paper/60 mt-1">{label}</p>
+    <div className="rounded-2xl border border-line bg-mist px-5 py-4 text-center">
+      <p className="font-display font-bold text-2xl text-ink">{value}</p>
+      <p className="text-xs text-ink/55 mt-1">{label}</p>
     </div>
   );
 }
