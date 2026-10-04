@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ShieldCheck, BadgeCheck } from "lucide-react";
+import Image from "next/image";
+import { BadgeCheck } from "lucide-react";
 import IconTile from "@/components/IconTile";
 import HeroSlider from "@/components/HeroSlider";
 import { categories } from "@/lib/data";
@@ -26,7 +27,7 @@ export default function HomePage() {
       {/* Quick category grid — mirrors the icon-grid pattern from both references */}
       <section className="max-w-content mx-auto px-6 pt-12 pb-10">
         <h1 className="font-display font-bold text-3xl sm:text-4xl">
-          Home services at your doorstep
+          Trusted Home Services at Your Doorstep in Kochi
         </h1>
         <p className="text-ink/60 mt-2">Serving Kochi. Pick what you need done.</p>
 
@@ -39,9 +40,10 @@ export default function HomePage() {
               label={category.name}
             />
           ))}
+          
           <IconTile
             href="/membership"
-            icon={ShieldCheck}
+            icon="/property-care-clean.webp"
             label="Property Care"
             badge="Popular"
           />
@@ -140,14 +142,19 @@ function Stat({ value, label }: { value: string; label: string }) {
 }
 
 function CategoryPreview({ category }: { category: (typeof categories)[number] }) {
-  const Icon = category.icon;
   return (
     <Link
       href={`/services/${category.slug}`}
-      className="group flex items-center gap-4 rounded-2xl border border-line bg-paper p-5 hover:border-orange transition-colors focus-ring"
+      className="group flex items-center gap-4 rounded-2xl border border-line bg-white p-5 hover:border-orange transition-colors focus-ring"
     >
       <div className="h-12 w-12 shrink-0 rounded-xl bg-mist group-hover:bg-orange-light flex items-center justify-center transition-colors">
-        <Icon size={22} strokeWidth={1.6} className="text-ink/80 group-hover:text-orange-dark transition-colors" />
+        <Image
+          src={category.icon}
+          alt={category.name}
+          width={22}
+          height={22}
+          className="transition-transform group-hover:scale-105"
+        />
       </div>
       <div>
         <p className="font-semibold text-ink">{category.name}</p>

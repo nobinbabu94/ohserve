@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Logo from "@/components/Logo";
 import { companyInfo } from "@/lib/data";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/membership", label: "Property Care" },
   { href: "/about", label: "About" },
@@ -10,6 +14,8 @@ const navLinks = [
 ];
 
 export default function Header() {
+  const pathname = usePathname();
+
   return (
     <header className="border-b border-line bg-paper sticky top-0 z-40">
       <div className="max-w-content mx-auto px-6 h-20 flex items-center justify-between gap-6">
@@ -18,15 +24,22 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-ink/70 hover:text-ink transition-colors focus-ring rounded-sm"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`text-sm font-medium transition-colors focus-ring rounded-sm ${
+                  isActive
+                    ? "text-orange "
+                    : "text-ink/70 hover:text-ink"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <a

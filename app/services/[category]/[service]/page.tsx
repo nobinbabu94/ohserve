@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ChevronLeft, Clock, Image as ImageIcon, IndianRupee } from "lucide-react";
 import BookingForm from "@/components/BookingForm";
@@ -839,7 +840,7 @@ export default function ServiceDetailPage({
       <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] mt-6">
         <div>
           <div className="h-16 w-16 rounded-2xl bg-mist flex items-center justify-center mb-5">
-            <service.icon size={28} strokeWidth={1.6} className="text-orange-dark" />
+            <Image src={service.icon} alt={service.name} width={28} height={28} className="text-orange-dark" />
           </div>
           <h1 className="font-display font-bold text-4xl">
             {service.slug === "deep-cleaning"

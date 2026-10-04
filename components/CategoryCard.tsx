@@ -1,10 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import type { Category } from "@/lib/data";
 
 export default function CategoryCard({ category }: { category: Category }) {
-  const Icon = category.icon;
-
   return (
     <Link
       href={`/services/${category.slug}`}
@@ -12,7 +11,13 @@ export default function CategoryCard({ category }: { category: Category }) {
     >
       <div className="flex items-start justify-between gap-4">
         <div className="h-14 w-14 rounded-2xl bg-mist group-hover:bg-orange-light flex items-center justify-center transition-colors">
-          <Icon size={26} strokeWidth={1.6} className="text-ink/80 group-hover:text-orange-dark transition-colors" />
+          <Image
+            src={category.icon}
+            alt={category.name}
+            width={26}
+            height={26}
+            className="transition-transform group-hover:scale-105"
+          />
         </div>
         <ArrowUpRight
           size={20}

@@ -1,30 +1,10 @@
-import {
-  Sparkles,
-  Droplet,
-  Droplets,
-  Zap,
-  Hammer,
-  Wrench,
-  Bug,
-  Tv,
-  Flame,
-  Sofa,
-  Baby,
-  ShowerHead,
-  Lightbulb,
-  Plug,
-  Ruler,
-  Refrigerator,
-  type LucideIcon,
-} from "lucide-react";
-
 export type Service = {
   slug: string;
   name: string;
   description: string;
   priceFrom: number;
   duration: string;
-  icon: LucideIcon;
+  icon: string;
 };
 
 export type Category = {
@@ -32,7 +12,7 @@ export type Category = {
   name: string;
   tagline: string;
   description: string;
-  icon: LucideIcon;
+  icon: string;
   services: Service[];
 };
 
@@ -43,7 +23,7 @@ export const categories: Category[] = [
     tagline: "Deep cleaning that actually holds up",
     description:
       "Kitchens, bathrooms, sofas, and full homes — cleaned by trained crews with their own equipment, not a mop borrowed from your kitchen.",
-    icon: Sparkles,
+    icon: "/Home and office cleaning service.jpg",
     services: [
       {
         slug: "deep-cleaning",
@@ -52,7 +32,7 @@ export const categories: Category[] = [
           "Full-home deep clean covering floors, kitchen, bathrooms, and all touchpoints.",
         priceFrom: 2499,
         duration: "3-4 hrs",
-        icon: Sparkles,
+        icon: "/icons/cleaning.svg",
       },
       {
         slug: "kitchen-cleaning",
@@ -61,7 +41,7 @@ export const categories: Category[] = [
           "Degreasing, chimney exterior, cabinets, countertops, and sink descaling.",
         priceFrom: 1299,
         duration: "1.5-2 hrs",
-        icon: Flame,
+        icon: "/icons/flame.svg",
       },
       {
         slug: "bathroom-cleaning",
@@ -70,7 +50,7 @@ export const categories: Category[] = [
           "Tile descaling, fittings polish, and drain care for up to two bathrooms.",
         priceFrom: 999,
         duration: "1-1.5 hrs",
-        icon: Droplet,
+        icon: "/icons/drop.svg",
       },
       {
         slug: "water-tank-cleaning",
@@ -79,7 +59,7 @@ export const categories: Category[] = [
           "Sludge removal, scrubbing, and disinfection for overhead and sump tanks.",
         priceFrom: 1499,
         duration: "1-2 hrs",
-        icon: Droplets,
+        icon: "/icons/drops.svg",
       },
       {
         slug: "sofa-cleaning",
@@ -87,7 +67,7 @@ export const categories: Category[] = [
         description: "Shampoo wash and vacuum extraction, fabric-safe.",
         priceFrom: 899,
         duration: "45-60 min",
-        icon: Sofa,
+        icon: "/icons/sofa.svg",
       },
       {
         slug: "newborn-home-cleaning",
@@ -96,7 +76,7 @@ export const categories: Category[] = [
           "Chemical-light sanitisation designed for homes with infants.",
         priceFrom: 1799,
         duration: "2-3 hrs",
-        icon: Baby,
+        icon: "/icons/baby.svg",
       },
     ],
   },
@@ -106,7 +86,7 @@ export const categories: Category[] = [
     tagline: "Leaks, fittings, and installs — fixed once",
     description:
       "Licensed plumbers for everything from a dripping tap to a full bathroom fitting job.",
-    icon: Droplet,
+    icon: "/Plumbing.webp",
     services: [
       {
         slug: "leak-repair",
@@ -114,7 +94,7 @@ export const categories: Category[] = [
         description: "Diagnosis and fix for visible or suspected leaks.",
         priceFrom: 399,
         duration: "30-60 min",
-        icon: Droplet,
+        icon: "/icons/drop.svg",
       },
       {
         slug: "faucet-installation",
@@ -122,7 +102,7 @@ export const categories: Category[] = [
         description: "Supply and fit, or fit your own fixture.",
         priceFrom: 349,
         duration: "30-45 min",
-        icon: Wrench,
+        icon: "/icons/wrench.svg",
       },
       {
         slug: "bathroom-fittings",
@@ -130,7 +110,7 @@ export const categories: Category[] = [
         description: "Showers, health faucets, and washbasin fittings.",
         priceFrom: 599,
         duration: "1-2 hrs",
-        icon: ShowerHead,
+        icon: "/icons/shower.svg",
       },
     ],
   },
@@ -140,7 +120,7 @@ export const categories: Category[] = [
     tagline: "Safe wiring, done by certified electricians",
     description:
       "Installations, repairs, and troubleshooting — every job signed off by a certified electrician.",
-    icon: Zap,
+    icon: "/Electrical-Services.webp",
     services: [
       {
         slug: "wiring-repair",
@@ -148,7 +128,7 @@ export const categories: Category[] = [
         description: "Fault-finding for switches, sockets, and circuits.",
         priceFrom: 349,
         duration: "30-60 min",
-        icon: Zap,
+        icon: "/icons/zap.svg",
       },
       {
         slug: "appliance-installation",
@@ -156,7 +136,7 @@ export const categories: Category[] = [
         description: "Ceiling fans, light fixtures, and small appliances.",
         priceFrom: 299,
         duration: "20-40 min",
-        icon: Lightbulb,
+        icon: "/icons/bulb.svg",
       },
       {
         slug: "switchboard-upgrade",
@@ -164,7 +144,7 @@ export const categories: Category[] = [
         description: "Board replacement and load-safe upgrades.",
         priceFrom: 899,
         duration: "1-2 hrs",
-        icon: Plug,
+        icon: "/icons/plug.svg",
       },
     ],
   },
@@ -174,7 +154,7 @@ export const categories: Category[] = [
     tagline: "Furniture and woodwork that fits your home",
     description:
       "Repairs, custom fittings, and woodwork matched to your home's existing style.",
-    icon: Hammer,
+    icon: "/Carpentry.webp",
     services: [
       {
         slug: "furniture-repair",
@@ -182,7 +162,7 @@ export const categories: Category[] = [
         description: "Hinges, drawers, laminate, and structural fixes.",
         priceFrom: 349,
         duration: "30-60 min",
-        icon: Hammer,
+        icon: "/icons/hammer.svg",
       },
       {
         slug: "custom-fittings",
@@ -190,7 +170,7 @@ export const categories: Category[] = [
         description: "Shelves, wardrobes, and fitted storage.",
         priceFrom: 1499,
         duration: "Varies",
-        icon: Ruler,
+        icon: "/icons/ruler.svg",
       },
     ],
   },
@@ -200,7 +180,7 @@ export const categories: Category[] = [
     tagline: "The small jobs, sorted in one visit",
     description:
       "One technician for the odd jobs that pile up — mounting, fixing, assembling.",
-    icon: Wrench,
+    icon: "/Handyman-&-Appliance-Repair.webp",
     services: [
       {
         slug: "appliance-repair",
@@ -208,7 +188,7 @@ export const categories: Category[] = [
         description: "Washing machines, refrigerators, and water purifiers.",
         priceFrom: 399,
         duration: "30-90 min",
-        icon: Refrigerator,
+        icon: "/icons/fridge.svg",
       },
       {
         slug: "tv-wall-mounting",
@@ -216,7 +196,7 @@ export const categories: Category[] = [
         description: "Mounting, wall drilling, and cable dressing.",
         priceFrom: 499,
         duration: "45-60 min",
-        icon: Tv,
+        icon: "/icons/tv.svg",
       },
       {
         slug: "pest-control",
@@ -224,7 +204,7 @@ export const categories: Category[] = [
         description: "General pest treatment for kitchens and common areas.",
         priceFrom: 999,
         duration: "1-1.5 hrs",
-        icon: Bug,
+        icon: "/icons/bug.svg",
       },
     ],
   },

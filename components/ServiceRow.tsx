@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Service } from "@/lib/data";
 
 export default function ServiceRow({
@@ -8,15 +9,19 @@ export default function ServiceRow({
   categorySlug: string;
   service: Service;
 }) {
-  const Icon = service.icon;
-
   return (
     <Link
       href={`/services/${categorySlug}/${service.slug}`}
       className="group rounded-2xl border border-line bg-paper p-5 hover:border-orange transition-colors focus-ring"
     >
       <div className="h-14 w-14 rounded-2xl bg-mist group-hover:bg-orange-light flex items-center justify-center transition-colors">
-        <Icon size={26} strokeWidth={1.6} className="text-ink/80 group-hover:text-orange-dark transition-colors" />
+        <Image
+          src={service.icon}
+          alt={service.name}
+          width={26}
+          height={26}
+          className="transition-transform group-hover:scale-105"
+        />
       </div>
       <p className="font-semibold text-ink mt-4">{service.name}</p>
       <p className="text-sm text-ink/60 mt-1.5 leading-relaxed line-clamp-2">

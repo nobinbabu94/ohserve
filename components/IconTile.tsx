@@ -1,9 +1,9 @@
 import Link from "next/link";
-import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
 
 type Props = {
   href: string;
-  icon: LucideIcon;
+  icon: string;
   label: string;
   caption?: string;
   badge?: string;
@@ -12,7 +12,7 @@ type Props = {
 
 export default function IconTile({
   href,
-  icon: Icon,
+  icon,
   label,
   caption,
   badge,
@@ -30,21 +30,35 @@ export default function IconTile({
           {badge}
         </span>
       )}
+
       <div
-        className={`flex items-center justify-center rounded-2xl border border-line bg-mist group-hover:border-orange group-hover:bg-orange-light transition-colors ${
-          isSmall ? "h-16 w-16" : "h-20 w-20 sm:h-24 sm:w-24"
-        }`}
+        className={`relative overflow-hidden rounded-2xl border border-line bg-mist transition-colors
+          group-hover:border-orange group-hover:bg-orange-light
+          ${isSmall ? "h-16 w-16" : "h-20 w-20 sm:h-24 sm:w-24"}
+        `}
       >
-        <Icon
-          size={isSmall ? 24 : 30}
-          strokeWidth={1.6}
-          className="text-ink/80 group-hover:text-orange-dark transition-colors"
+        <Image
+          src={icon}
+          alt={label}
+          fill
+          sizes={isSmall ? "64px" : "(min-width: 640px) 96px, 80px"}
+          className="object-cover transition-transform duration-200 group-hover:scale-105"
         />
       </div>
-      <p className={`mt-2.5 font-medium leading-tight ${isSmall ? "text-xs" : "text-sm"}`}>
+
+      <p
+        className={`mt-2.5 font-medium leading-tight ${
+          isSmall ? "text-xs" : "text-sm"
+        }`}
+      >
         {label}
       </p>
-      {caption && <p className="text-xs text-ink/50 mt-0.5">{caption}</p>}
+
+      {caption && (
+        <p className="mt-0.5 text-xs text-ink/50">
+          {caption}
+        </p>
+      )}
     </Link>
   );
 }
