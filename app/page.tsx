@@ -45,10 +45,10 @@ export default function HomePage() {
     <>
       {/* Quick category grid — mirrors the icon-grid pattern from both references */}
       <section className="max-w-content mx-auto md:px-6 pt-12 pb-10">
-        <h1 className="font-display font-bold text-3xl sm:text-4xl">
+        <h1 className="font-display font-bold text-3xl sm:text-4xl px-4">
           Trusted Home Services at Your Doorstep in Kochi
-        </h1>
-        <p className="text-ink/60 mt-2">Serving Kochi. Pick what you need done.</p>
+        </h1> 
+        <p className="text-ink/60 mt-2 px-4">Serving Kochi. Pick what you need done.</p>
 
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-x-4 gap-y-8 mt-10">
           {categories.map((category) => (
