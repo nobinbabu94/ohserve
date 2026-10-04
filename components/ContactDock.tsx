@@ -4,6 +4,7 @@ import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { Phone, LayoutGrid, MessageSquare, X, Send, Loader2, CheckCircle2 } from "lucide-react";
 import { companyInfo } from "@/lib/data";
+import { pushDataLayer } from "@/lib/analytics";
 
 const waLink = `https://wa.me/${companyInfo.whatsappNumber}?text=${encodeURIComponent(
   "Hi OhServe, I'd like to ask about a service."
@@ -116,6 +117,9 @@ function ChatModal({ onClose }: { onClose: () => void }) {
         throw new Error(body.error || "Something went wrong.");
       }
       setStatus("success");
+      pushDataLayer("contact_message_success", {
+        lead_source: "contact_chat",
+      });
     } catch (err) {
       setStatus("error");
       setErrorMessage(err instanceof Error ? err.message : "Something went wrong.");
@@ -167,7 +171,12 @@ function ChatModal({ onClose }: { onClose: () => void }) {
               ))}
             </div>
 
-            <form onSubmit={handleSubmit} className="grid gap-3">
+            <form
+              id="contact-message-form"
+              data-gtm-form="contact_message"
+              onSubmit={handleSubmit}
+              className="grid gap-3"
+            >
               <div className="grid grid-cols-2 gap-3">
                 <input
                   name="name"

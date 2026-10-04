@@ -25,14 +25,22 @@ export default function Header() {
 
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => {
-            const isActive = pathname === link.href;
+            // Home should only be active on "/".
+            // Other navigation items should also be active
+            // on their nested pages, e.g. /services/deep-clean.
+            const isActive =
+              link.href === "/"
+                ? pathname === "/"
+                : pathname === link.href ||
+                  pathname.startsWith(`${link.href}/`);
+
             return (
               <Link
                 key={link.href}
                 href={link.href}
                 className={`text-sm font-medium transition-colors focus-ring rounded-sm ${
                   isActive
-                    ? "text-orange "
+                    ? "text-orange"
                     : "text-ink/70 hover:text-ink"
                 }`}
               >

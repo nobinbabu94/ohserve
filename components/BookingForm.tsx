@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import { Loader2, CheckCircle2 } from "lucide-react";
+import { pushDataLayer } from "@/lib/analytics";
 
 type Props = {
   defaultService?: string;
@@ -35,6 +36,10 @@ export default function BookingForm({ defaultService, compact }: Props) {
       }
 
       setStatus("success");
+      pushDataLayer("booking_request_success", {
+        service_name: String(data.service || defaultService || "unspecified"),
+        lead_source: "booking_form",
+      });
       form.reset();
     } catch (err) {
       setStatus("error");
@@ -63,7 +68,12 @@ export default function BookingForm({ defaultService, compact }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-4">
+    <form
+      id="booking-request-form"
+      data-gtm-form="booking_request"
+      onSubmit={handleSubmit}
+      className="grid gap-4"
+    >
       {defaultService && (
         <input type="hidden" name="service" value={defaultService} />
       )}

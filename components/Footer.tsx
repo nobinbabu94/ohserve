@@ -9,7 +9,11 @@ export default function Footer() {
       <div className="max-w-content mx-auto px-6 py-16 grid gap-12 md:grid-cols-4">
         <div>
           <div className="mb-4">
-            <Logo className="h-8 w-auto" variant="light" />
+            {/* <Logo className="h-8 w-auto" variant="light" /> */}
+            <Logo
+              src="/ohserve-logo-white.png"
+              alt="OhServe Solutions"
+            />
           </div>
           <p className="text-sm text-paper/60 leading-relaxed">
             Home and office maintenance in {companyInfo.city}, done by

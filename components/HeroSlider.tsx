@@ -98,7 +98,7 @@ export default function HeroSlider() {
   }
 
   return (
-    <section className="max-w-content mx-auto px-6">
+    <section className="max-w-content mx-auto md:px-6">
       <div
         className="relative overflow-hidden rounded-3xl"
         onTouchStart={onTouchStart}
