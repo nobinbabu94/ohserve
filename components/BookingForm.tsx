@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useId, useState, type FormEvent } from "react";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import { pushDataLayer } from "@/lib/analytics";
 
@@ -11,53 +11,80 @@ type Props = {
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+const GENERIC_ERROR = "Something went wrong. Please try again or call us.";
+const TIMEOUT_MS = 20_000;
+
 export default function BookingForm({ defaultService, compact }: Props) {
+  const uid = useId();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (status === "submitting") return;
+
     setStatus("submitting");
     setErrorMessage("");
 
-    const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
     try {
       const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        signal: controller.signal,
       });
 
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
-        throw new Error(body.error || "Something went wrong. Please try again.");
+        setErrorMessage(
+          typeof body?.error === "string" ? body.error : GENERIC_ERROR
+        );
+        setStatus("error");
+        return;
       }
+    } catch {
+      setErrorMessage(
+        controller.signal.aborted
+          ? "The request timed out. Please try again or call us."
+          : "Couldn't reach the server. Check your connection or call us."
+      );
+      setStatus("error");
+      return;
+    } finally {
+      clearTimeout(timer);
+    }
 
-      setStatus("success");
+    setStatus("success");
+
+    // Analytics must never affect the outcome of a successful booking.
+    try {
       pushDataLayer("booking_request_success", {
         service_name: String(data.service || defaultService || "unspecified"),
         lead_source: "booking_form",
       });
-      form.reset();
-    } catch (err) {
-      setStatus("error");
-      setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong. Please try again."
-      );
+    } catch {
+      /* ignore */
     }
   }
 
   if (status === "success") {
     return (
-      <div className="rounded-xl border border-orange/30 bg-orange-light px-6 py-8 text-center">
+      <div
+        role="status"
+        className="rounded-xl border border-orange/30 bg-orange-light px-6 py-8 text-center"
+      >
         <CheckCircle2 className="mx-auto mb-3 text-orange-dark" size={32} />
         <p className="font-display text-xl text-orange-dark">Request received</p>
         <p className="text-sm text-ink/70 mt-2">
           We&apos;ll call you shortly to confirm your slot.
         </p>
         <button
+          type="button"
           onClick={() => setStatus("idle")}
           className="mt-5 text-sm underline text-orange-dark focus-ring rounded-sm"
         >
@@ -69,51 +96,102 @@ export default function BookingForm({ defaultService, compact }: Props) {
 
   return (
     <form
-      id="booking-request-form"
       data-gtm-form="booking_request"
       onSubmit={handleSubmit}
       className="grid gap-4"
     >
+      {/* Honeypot: real users never see or fill this */}
+      <div
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
+      >
+        <label>
+          Website
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
       {defaultService && (
         <input type="hidden" name="service" value={defaultService} />
       )}
 
       <div className={compact ? "grid gap-4" : "grid gap-4 sm:grid-cols-2"}>
-        <Field label="Full name" name="name" required autoComplete="name" />
         <Field
+          id={`${uid}-name`}
+          label="Full name"
+          name="name"
+          required
+          autoComplete="name"
+          maxLength={100}
+        />
+        <Field
+          id={`${uid}-phone`}
           label="Phone number"
           name="phone"
           type="tel"
+          inputMode="tel"
           required
           autoComplete="tel"
+          maxLength={30}
         />
       </div>
 
       <div className={compact ? "grid gap-4" : "grid gap-4 sm:grid-cols-2"}>
-        <Field label="Email" name="email" type="email" autoComplete="email" />
-        <Field label="Preferred date" name="preferredDate" type="date" />
+        <Field
+          id={`${uid}-email`}
+          label="Email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          maxLength={254}
+        />
+        <Field
+          id={`${uid}-date`}
+          label="Preferred date"
+          name="preferredDate"
+          type="date"
+        />
       </div>
 
       {!defaultService && (
-        <Field label="Service needed" name="service" required />
+        <Field
+          id={`${uid}-service`}
+          label="Service needed"
+          name="service"
+          required
+          maxLength={100}
+        />
       )}
 
-      <Field label="Address in Kochi" name="address" required />
+      <Field
+        id={`${uid}-address`}
+        label="Address in Kochi"
+        name="address"
+        required
+        autoComplete="street-address"
+        maxLength={300}
+      />
 
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-ink/80 mb-1.5">
+        <label
+          htmlFor={`${uid}-message`}
+          className="block text-sm font-medium text-ink/80 mb-1.5"
+        >
           Anything we should know?
         </label>
         <textarea
-          id="message"
+          id={`${uid}-message`}
           name="message"
           rows={3}
+          maxLength={2000}
           className="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm focus-ring"
         />
       </div>
 
       {status === "error" && (
-        <p className="text-sm text-orange-dark">{errorMessage}</p>
+        <p role="alert" className="text-sm text-orange-dark">
+          {errorMessage}
+        </p>
       )}
 
       <button
@@ -132,30 +210,43 @@ export default function BookingForm({ defaultService, compact }: Props) {
 }
 
 function Field({
+  id,
   label,
   name,
   type = "text",
   required,
   autoComplete,
+  inputMode,
+  maxLength,
 }: {
+  id: string;
   label: string;
   name: string;
   type?: string;
   required?: boolean;
   autoComplete?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  maxLength?: number;
 }) {
   return (
     <div>
-      <label htmlFor={name} className="block text-sm font-medium text-ink/80 mb-1.5">
+      <label htmlFor={id} className="block text-sm font-medium text-ink/80 mb-1.5">
         {label}
-        {required && <span className="text-orange"> *</span>}
+        {required && (
+          <span className="text-orange" aria-hidden="true">
+            {" "}
+            *
+          </span>
+        )}
       </label>
       <input
-        id={name}
+        id={id}
         name={name}
         type={type}
         required={required}
         autoComplete={autoComplete}
+        inputMode={inputMode}
+        maxLength={maxLength}
         className="w-full rounded-lg border border-line bg-white px-4 py-2.5 text-sm focus-ring"
       />
     </div>
