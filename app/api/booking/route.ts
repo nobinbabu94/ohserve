@@ -3,6 +3,12 @@ import nodemailer from "nodemailer";
 
 export const runtime = "nodejs";
 
+ console.log("SMTP debug", {
+  host: process.env.SMTP_HOST,
+  port: process.env.SMTP_PORT,
+
+});
+
 const MAX = { name: 100, phone: 30, email: 254, service: 100, date: 30, address: 300, message: 2000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -52,7 +58,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
   }
 
+
+  
   const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, BOOKING_TO_EMAIL } = process.env;
+
+ 
+
+
   const port = Number(SMTP_PORT);
   if (!SMTP_HOST || !port || !SMTP_USER || !SMTP_PASS || !BOOKING_TO_EMAIL) {
     console.error("Missing or invalid SMTP environment variables.");
