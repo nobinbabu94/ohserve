@@ -107,7 +107,7 @@ function ChatModal({ onClose }: { onClose: () => void }) {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const res = await fetch("/api/chat", {
+      const res = await fetch("/api/booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

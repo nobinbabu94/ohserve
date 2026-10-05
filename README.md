@@ -34,6 +34,7 @@ Open http://localhost:3000
 
 - **Gmail**: turn on 2-Step Verification, then create an "App Password" at
   https://myaccount.google.com/apppasswords — use that as `SMTP_PASS`, port `587`.
+  Paste the App Password without its display spaces.
   Add the values to `.env.local` (not `.env.example`) and restart the dev server
   after changing them. The regular Gmail account password will not work.
 - **Zoho Mail**: `smtp.zoho.com`, port `587`, use your mailbox password
@@ -50,6 +51,10 @@ This is a standard Next.js app — deploys as-is to Vercel, Netlify, or any
 Node host. Set the same environment variables (`SMTP_HOST`, `SMTP_PORT`,
 `SMTP_USER`, `SMTP_PASS`, `BOOKING_TO_EMAIL`) in your hosting provider's
 dashboard.
+
+After changing Vercel environment variables, create a new deployment. If booking
+still fails, check the deployment's runtime logs for the `/api/booking` function;
+the API logs SMTP error codes without exposing credentials.
 
 ```bash
 npm run build

@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     secure: Number(SMTP_PORT) === 465,
     auth: {
       user: SMTP_USER,
-      pass: SMTP_PASS,
+      pass: SMTP_PASS.replace(/\s/g, ""),
     },
   });
 
@@ -81,7 +81,20 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (err) {
-    console.error("Failed to send booking email:", err);
+    const smtpError =
+      err instanceof Error
+        ? (err as Error & {
+            code?: string;
+            command?: string;
+            responseCode?: number;
+          })
+        : undefined;
+
+    console.error("Failed to send booking email:", {
+      code: smtpError?.code,
+      command: smtpError?.command,
+      responseCode: smtpError?.responseCode,
+    });
     return NextResponse.json(
       { error: "Could not send your request. Please call us instead." },
       { status: 502 }
