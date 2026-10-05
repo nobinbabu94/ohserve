@@ -24,7 +24,7 @@ every page pulls from it, so nothing needs updating in two places.
 ```bash
 npm install
 cp .env.example .env.local
-# fill in SMTP_HOST / SMTP_PORT / SMTP_USER / SMTP_PASS / BOOKING_TO_EMAIL
+# Edit .env.local with your SMTP credentials (never put real credentials in .env.example).
 npm run dev
 ```
 
@@ -34,6 +34,8 @@ Open http://localhost:3000
 
 - **Gmail**: turn on 2-Step Verification, then create an "App Password" at
   https://myaccount.google.com/apppasswords — use that as `SMTP_PASS`, port `587`.
+  Add the values to `.env.local` (not `.env.example`) and restart the dev server
+  after changing them. The regular Gmail account password will not work.
 - **Zoho Mail**: `smtp.zoho.com`, port `587`, use your mailbox password
   or an app-specific password if 2FA is on.
 - Any other provider: use whatever host/port/credentials they give you for
