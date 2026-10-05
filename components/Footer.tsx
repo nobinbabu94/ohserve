@@ -40,6 +40,14 @@ export default function Footer() {
         <div>
           <p className="text-sm font-semibold text-paper/50 mb-4">Services</p>
           <ul className="space-y-2.5 text-sm">
+            <li>
+              <Link
+                href="/maid-services"
+                className="text-paper/80 hover:text-orange focus-ring rounded-sm"
+              >
+                Maid Services
+              </Link>
+            </li>
             {categories.map((c) => (
               <li key={c.slug}>
                 <Link

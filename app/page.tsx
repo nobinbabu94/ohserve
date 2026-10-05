@@ -50,7 +50,7 @@ export default function HomePage() {
         </h1> 
         <p className="text-ink/60 mt-2 px-4">Serving Kochi. Pick what you need done.</p>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-x-4 gap-y-8 mt-10">
+        <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-x-4 gap-y-8 mt-10">
           {categories.map((category) => (
             <IconTile
               key={category.slug}
@@ -59,6 +59,12 @@ export default function HomePage() {
               label={category.name}
             />
           ))}
+
+          <IconTile
+            href="/maid-services"
+            icon="/home-cleaning-ohserve-kochi.webp"
+            label="Maid Services"
+          />
 
           <IconTile
             href="/membership"
@@ -71,6 +77,8 @@ export default function HomePage() {
 
       {/* Hero banner — auto-playing slider, no search bar */}
       <HeroSlider />
+
+      
 
       {/* Trust stats */}
       <section className="max-w-content mx-auto px-6 pt-10">
@@ -155,7 +163,36 @@ export default function HomePage() {
         </div>
       </section>
 
-
+<section className="max-w-content mx-auto md:px-6 pt-8">
+        <Link
+          href="/maid-services"
+          className="group relative flex min-h-64 items-end overflow-hidden md:rounded-2xl focus-ring"
+        >
+          <Image
+            src="/ohserve-maids-in-kochi.webp"
+            alt=""
+            fill
+            sizes="(min-width: 1024px) 1200px, 100vw"
+            className="object-cover object-center  transition-transform duration-500 group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/55 to-ink/10" />
+          <div className="relative max-w-xl p-7 text-white sm:p-10">
+            <p className="text-sm font-semibold uppercase tracking-wide text-white/75">
+              Household help
+            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold sm:text-4xl">
+              Looking for maid services?
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-white/85 sm:text-base">
+              Tell us what kind of household help you need and we’ll follow up
+              to discuss availability.
+            </p>
+            <span className="mt-5 inline-flex rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-ink transition-colors group-hover:bg-orange-light">
+              Explore maid services
+            </span>
+          </div>
+        </Link>
+      </section>
 
       <section className="max-w-content mx-auto px-6 py-20">
         <div className="grid gap-10 md:grid-cols-2 md:items-start">

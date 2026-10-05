@@ -7,31 +7,32 @@ export default function CategoryCard({ category }: { category: Category }) {
   return (
     <Link
       href={`/services/${category.slug}`}
-      className="group block rounded-2xl border border-line bg-paper p-6 hover:border-orange transition-colors focus-ring"
+      className="group relative flex min-h-64 flex-col justify-between overflow-hidden rounded-2xl border border-line p-6 transition-colors focus-ring"
     >
-      <div className="flex items-start justify-between gap-4">
-        <div className="h-14 w-14 rounded-2xl bg-mist group-hover:bg-orange-light flex items-center justify-center transition-colors">
-          <Image
-            src={category.icon}
-            alt={category.name}
-            width={26}
-            height={26}
-            className="transition-transform group-hover:scale-105"
-          />
-        </div>
+      <Image
+        src={category.icon}
+        alt=""
+        fill
+        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-ink/35 to-ink/10 transition-colors group-hover:from-ink/95" />
+      <div className="relative flex justify-end">
         <ArrowUpRight
           size={20}
-          className="text-ink/30 group-hover:text-orange shrink-0 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          className="text-white/80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
         />
       </div>
-      <p className="font-display font-bold text-lg text-ink mt-4">{category.name}</p>
-      <p className="text-sm text-ink/60 mt-1.5 leading-relaxed">
-        {category.tagline}
-      </p>
-      <p className="text-xs text-ink/45 mt-4">
-        {category.services.length} services · from ₹
-        {Math.min(...category.services.map((s) => s.priceFrom))}
-      </p>
+      <div className="relative mt-8">
+        <p className="font-display font-bold text-xl text-white">{category.name}</p>
+        <p className="text-sm text-white/85 mt-1.5 leading-relaxed">
+          {category.tagline}
+        </p>
+        <p className="text-xs text-white/75 mt-4">
+          {category.services.length} services · from ₹
+          {Math.min(...category.services.map((s) => s.priceFrom))}
+        </p>
+      </div>
     </Link>
   );
 }

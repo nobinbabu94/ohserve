@@ -4,7 +4,7 @@ import { categories } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Services | OhServe Solutions",
-  description: "Cleaning, plumbing, electrical, carpentry, and handyman services in Kochi.",
+  description: "Explore home services in Kochi, including cleaning, repairs, and maid services from OhServe Solutions.",
 };
 
 export default function ServicesPage() {

@@ -22,7 +22,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "OhServe Solutions | Home & Office Services in Kochi",
   description:
-    "Book trusted cleaning, plumbing, electrical, carpentry, and handyman services in Kochi. Certified experts, transparent pricing, easy booking.",
+    "Book trusted cleaning, maid, plumbing, electrical, carpentry, and handyman services in Kochi. Certified experts, transparent pricing, easy booking.",
 };
 
 export default function RootLayout({

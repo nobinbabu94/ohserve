@@ -94,10 +94,10 @@ function ChatModal({ onClose }: { onClose: () => void }) {
 
   const serviceShortcuts = [
     "Deep cleaning",
-    "Bathroom cleaning",
-    "Kitchen cleaning",
-    "Sofa cleaning",
-    "Maid service",
+    "Bathroom",
+    "Kitchen",
+    "Sofa",
+    "Maids",
   ];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {

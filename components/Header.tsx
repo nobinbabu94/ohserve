@@ -8,6 +8,7 @@ import { companyInfo } from "@/lib/data";
 const navLinks = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
+  { href: "/maid-services", label: "Maid Services" },
   { href: "/membership", label: "Property Care" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
