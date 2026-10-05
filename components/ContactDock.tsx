@@ -92,10 +92,12 @@ function ChatModal({ onClose }: { onClose: () => void }) {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const quickReplies = [
-    "I'd like to book a service",
-    "What are your prices?",
-    "Do you serve my area?",
+  const serviceShortcuts = [
+    "Deep cleaning",
+    "Bathroom cleaning",
+    "Kitchen cleaning",
+    "Sofa cleaning",
+    "Maid service",
   ];
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -104,7 +106,10 @@ function ChatModal({ onClose }: { onClose: () => void }) {
     setErrorMessage("");
 
     const form = e.currentTarget;
-    const data = Object.fromEntries(new FormData(form).entries());
+    const data = {
+      ...Object.fromEntries(new FormData(form).entries()),
+      formType: "contact",
+    };
 
     try {
       const res = await fetch("/api/booking", {
@@ -150,7 +155,7 @@ function ChatModal({ onClose }: { onClose: () => void }) {
         {status === "success" ? (
           <div className="text-center py-6">
             <CheckCircle2 className="mx-auto mb-3 text-orange-dark" size={32} />
-            <p className="font-medium">Message sent</p>
+            <p className="font-medium">Message received</p>
             <p className="text-sm text-ink/60 mt-1">We&apos;ll get back to you shortly.</p>
             <button onClick={onClose} className="mt-5 text-sm underline text-orange-dark focus-ring rounded-sm">
               Close
@@ -159,14 +164,22 @@ function ChatModal({ onClose }: { onClose: () => void }) {
         ) : (
           <>
             <div className="flex flex-wrap gap-2 mb-4">
-              {quickReplies.map((q) => (
+              {serviceShortcuts.map((shortcut) => (
                 <button
-                  key={q}
+                  key={shortcut}
                   type="button"
-                  onClick={() => setMessage(q)}
+                  onClick={() => {
+                    setMessage((current) =>
+                      current.includes(shortcut)
+                        ? current
+                        : current.trim()
+                          ? `${current.trim()}\n${shortcut}`
+                          : shortcut
+                    );
+                  }}
                   className="text-xs rounded-full border border-line px-3 py-1.5 hover:border-orange hover:text-orange-dark transition-colors focus-ring"
                 >
-                  {q}
+                  {shortcut}
                 </button>
               ))}
             </div>
@@ -180,12 +193,22 @@ function ChatModal({ onClose }: { onClose: () => void }) {
               <div className="grid grid-cols-2 gap-3">
                 <input
                   name="name"
-                  placeholder="Your name (optional)"
+                  placeholder="Your name *"
+                  aria-label="Your name"
+                  autoComplete="name"
+                  maxLength={100}
+                  required
                   className="rounded-lg border border-line px-3.5 py-2.5 text-sm focus-ring"
                 />
                 <input
                   name="phone"
-                  placeholder="Phone (optional)"
+                  type="tel"
+                  inputMode="tel"
+                  placeholder="Phone number *"
+                  aria-label="Phone number"
+                  autoComplete="tel"
+                  maxLength={30}
+                  required
                   className="rounded-lg border border-line px-3.5 py-2.5 text-sm focus-ring"
                 />
               </div>

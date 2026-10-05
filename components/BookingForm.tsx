@@ -14,61 +14,117 @@ type Status = "idle" | "submitting" | "success" | "error";
 const GENERIC_ERROR = "Something went wrong. Please try again or call us.";
 const TIMEOUT_MS = 20_000;
 
-export default function BookingForm({ defaultService, compact }: Props) {
+export default function BookingForm({
+  defaultService,
+  compact,
+}: Props) {
   const uid = useId();
+
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(
+    e: FormEvent<HTMLFormElement>
+  ) {
     e.preventDefault();
-    if (status === "submitting") return;
+
+    // Prevent duplicate submissions.
+    if (status === "submitting") {
+      return;
+    }
 
     setStatus("submitting");
     setErrorMessage("");
 
-    const data = Object.fromEntries(new FormData(e.currentTarget).entries());
+    const form = e.currentTarget;
+
+    const data = Object.fromEntries(
+      new FormData(form).entries()
+    );
+
+    // Explicitly identify this as a booking request.
+    data.formType = "booking";
 
     const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+    const timer = window.setTimeout(() => {
+      controller.abort();
+    }, TIMEOUT_MS);
 
     try {
       const res = await fetch("/api/booking", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data),
         signal: controller.signal,
       });
 
+      let responseBody: {
+        ok?: boolean;
+        message?: string;
+        error?: string;
+      } = {};
+
+      try {
+        responseBody = await res.json();
+      } catch {
+        // Server returned a non-JSON response.
+        responseBody = {};
+      }
+
       if (!res.ok) {
-        const body = await res.json().catch(() => ({}));
         setErrorMessage(
-          typeof body?.error === "string" ? body.error : GENERIC_ERROR
+          typeof responseBody.error === "string"
+            ? responseBody.error
+            : GENERIC_ERROR
         );
+
         setStatus("error");
         return;
       }
-    } catch {
-      setErrorMessage(
-        controller.signal.aborted
-          ? "The request timed out. Please try again or call us."
-          : "Couldn't reach the server. Check your connection or call us."
-      );
+
+      if (responseBody.ok !== true) {
+        setErrorMessage(GENERIC_ERROR);
+        setStatus("error");
+        return;
+      }
+
+      // Only show success after the API confirms the
+      // email/request was successfully accepted.
+      setStatus("success");
+
+      // Analytics must never affect booking success.
+      try {
+        pushDataLayer("booking_request_success", {
+          service_name: String(
+            data.service ||
+              defaultService ||
+              "unspecified"
+          ),
+          lead_source: "booking_form",
+        });
+      } catch {
+        // Ignore analytics failures.
+      }
+    } catch (error) {
+      if (
+        error instanceof DOMException &&
+        error.name === "AbortError"
+      ) {
+        setErrorMessage(
+          "The request timed out. Please try again or call us."
+        );
+      } else {
+        setErrorMessage(
+          "Couldn't reach the server. Check your connection or call us."
+        );
+      }
+
       setStatus("error");
-      return;
     } finally {
-      clearTimeout(timer);
-    }
-
-    setStatus("success");
-
-    // Analytics must never affect the outcome of a successful booking.
-    try {
-      pushDataLayer("booking_request_success", {
-        service_name: String(data.service || defaultService || "unspecified"),
-        lead_source: "booking_form",
-      });
-    } catch {
-      /* ignore */
+      window.clearTimeout(timer);
     }
   }
 
@@ -78,15 +134,27 @@ export default function BookingForm({ defaultService, compact }: Props) {
         role="status"
         className="rounded-xl border border-orange/30 bg-orange-light px-6 py-8 text-center"
       >
-        <CheckCircle2 className="mx-auto mb-3 text-orange-dark" size={32} />
-        <p className="font-display text-xl text-orange-dark">Request received</p>
-        <p className="text-sm text-ink/70 mt-2">
-          We&apos;ll call you shortly to confirm your slot.
+        <CheckCircle2
+          className="mx-auto mb-3 text-orange-dark"
+          size={32}
+        />
+
+        <p className="font-display text-xl text-orange-dark">
+          Request received
         </p>
+
+        <p className="mt-2 text-sm text-ink/70">
+          We&apos;ll call or WhatsApp you shortly to confirm
+          your booking.
+        </p>
+
         <button
           type="button"
-          onClick={() => setStatus("idle")}
-          className="mt-5 text-sm underline text-orange-dark focus-ring rounded-sm"
+          onClick={() => {
+            setStatus("idle");
+            setErrorMessage("");
+          }}
+          className="mt-5 rounded-sm text-sm underline text-orange-dark focus-ring"
         >
           Book another service
         </button>
@@ -100,22 +168,40 @@ export default function BookingForm({ defaultService, compact }: Props) {
       onSubmit={handleSubmit}
       className="grid gap-4"
     >
-      {/* Honeypot: real users never see or fill this */}
+      {/* Honeypot - hidden from real users */}
       <div
         aria-hidden="true"
         className="absolute left-[-9999px] h-0 w-0 overflow-hidden"
       >
-        <label>
+        <label htmlFor={`${uid}-website`}>
           Website
-          <input type="text" name="website" tabIndex={-1} autoComplete="off" />
         </label>
+
+        <input
+          id={`${uid}-website`}
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
+      {/* Service selected from elsewhere on the site */}
       {defaultService && (
-        <input type="hidden" name="service" value={defaultService} />
+        <input
+          type="hidden"
+          name="service"
+          value={defaultService}
+        />
       )}
 
-      <div className={compact ? "grid gap-4" : "grid gap-4 sm:grid-cols-2"}>
+      <div
+        className={
+          compact
+            ? "grid gap-4"
+            : "grid gap-4 sm:grid-cols-2"
+        }
+      >
         <Field
           id={`${uid}-name`}
           label="Full name"
@@ -124,6 +210,7 @@ export default function BookingForm({ defaultService, compact }: Props) {
           autoComplete="name"
           maxLength={100}
         />
+
         <Field
           id={`${uid}-phone`}
           label="Phone number"
@@ -136,7 +223,13 @@ export default function BookingForm({ defaultService, compact }: Props) {
         />
       </div>
 
-      <div className={compact ? "grid gap-4" : "grid gap-4 sm:grid-cols-2"}>
+      <div
+        className={
+          compact
+            ? "grid gap-4"
+            : "grid gap-4 sm:grid-cols-2"
+        }
+      >
         <Field
           id={`${uid}-email`}
           label="Email"
@@ -145,6 +238,7 @@ export default function BookingForm({ defaultService, compact }: Props) {
           autoComplete="email"
           maxLength={254}
         />
+
         <Field
           id={`${uid}-date`}
           label="Preferred date"
@@ -175,10 +269,11 @@ export default function BookingForm({ defaultService, compact }: Props) {
       <div>
         <label
           htmlFor={`${uid}-message`}
-          className="block text-sm font-medium text-ink/80 mb-1.5"
+          className="mb-1.5 block text-sm font-medium text-ink/80"
         >
           Anything we should know?
         </label>
+
         <textarea
           id={`${uid}-message`}
           name="message"
@@ -189,7 +284,11 @@ export default function BookingForm({ defaultService, compact }: Props) {
       </div>
 
       {status === "error" && (
-        <p role="alert" className="text-sm text-orange-dark">
+        <p
+          role="alert"
+          aria-live="polite"
+          className="text-sm text-orange-dark"
+        >
           {errorMessage}
         </p>
       )}
@@ -197,13 +296,24 @@ export default function BookingForm({ defaultService, compact }: Props) {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="inline-flex items-center justify-center gap-2 rounded-full bg-orange text-paper px-6 py-3 text-sm font-medium hover:bg-orange-dark transition-colors disabled:opacity-60 focus-ring"
+        aria-busy={status === "submitting"}
+        className="inline-flex items-center justify-center gap-2 rounded-full bg-orange px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-orange-dark disabled:cursor-not-allowed disabled:opacity-60 focus-ring"
       >
-        {status === "submitting" && <Loader2 size={16} className="animate-spin" />}
-        {status === "submitting" ? "Sending request…" : "Request this booking"}
+        {status === "submitting" && (
+          <Loader2
+            size={16}
+            className="animate-spin"
+          />
+        )}
+
+        {status === "submitting"
+          ? "Sending request…"
+          : "Request this booking"}
       </button>
+
       <p className="text-xs text-ink/50">
-        We&apos;ll call or WhatsApp you to confirm — no payment is taken here.
+        We&apos;ll call or WhatsApp you to confirm — no payment
+        is taken here.
       </p>
     </form>
   );
@@ -230,15 +340,23 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={id} className="block text-sm font-medium text-ink/80 mb-1.5">
+      <label
+        htmlFor={id}
+        className="mb-1.5 block text-sm font-medium text-ink/80"
+      >
         {label}
+
         {required && (
-          <span className="text-orange" aria-hidden="true">
+          <span
+            className="text-orange"
+            aria-hidden="true"
+          >
             {" "}
             *
           </span>
         )}
       </label>
+
       <input
         id={id}
         name={name}
