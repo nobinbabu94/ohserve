@@ -21,7 +21,7 @@ export default function Header() {
     <header className="border-b border-line bg-paper sticky top-0 z-40">
       <div className="max-w-content mx-auto px-6 h-20 flex items-center justify-between gap-6">
         <Link href="/" className="focus-ring rounded-sm shrink-0">
-          <Logo className="h-9 w-auto" />
+          <Logo className="h-14 w-auto" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">

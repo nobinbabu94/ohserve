@@ -13,9 +13,9 @@ type LogoProps = {
 export default function Logo({
   src = "/ohserve-logo.png",
   alt = "OhServe Solutions",
-  className = "h-8 w-auto",
-  width = 300,
-  height = 70,
+  className = "h-16 w-auto",
+  width = 350,
+  height = 100,
   priority = false,
   variant = "dark",
 }: LogoProps) {
