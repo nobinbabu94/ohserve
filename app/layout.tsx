@@ -20,6 +20,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.ohserve.com"),
   title: "OhServe Solutions | Home & Office Services in Kochi",
   description:
     "Book trusted cleaning, maid, plumbing, electrical, carpentry, and handyman services in Kochi. Certified experts, transparent pricing, easy booking.",

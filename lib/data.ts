@@ -5,6 +5,7 @@ export type Service = {
   priceFrom: number;
   duration: string;
   icon: string;
+  img: string;
 };
 
 export type Category = {
@@ -14,6 +15,7 @@ export type Category = {
   description: string;
   icon: string;
   services: Service[];
+  
 };
 
 export const categories: Category[] = [
@@ -33,6 +35,7 @@ export const categories: Category[] = [
         priceFrom: 2499,
         duration: "3-4 hrs",
         icon: "/icons/cleaning.svg",
+        img: "/deep-cleaning-kochi-ohserve-solutoins-card.webp",
       },
       {
         slug: "kitchen-cleaning",
@@ -42,6 +45,7 @@ export const categories: Category[] = [
         priceFrom: 1299,
         duration: "1.5-2 hrs",
         icon: "/icons/flame.svg",
+        img: "/kitchen-cleaning-kochi-ohserve.webp",
       },
       {
         slug: "bathroom-cleaning",
@@ -51,6 +55,7 @@ export const categories: Category[] = [
         priceFrom: 999,
         duration: "1-1.5 hrs",
         icon: "/icons/drop.svg",
+        img: "/bathroom-cleaning-kochi-ohserve.webp",
       },
       {
         slug: "water-tank-cleaning",
@@ -60,6 +65,7 @@ export const categories: Category[] = [
         priceFrom: 1499,
         duration: "1-2 hrs",
         icon: "/icons/drops.svg",
+        img: "/watertank-cleaning-kochi-ohservesolutions.webp",
       },
       {
         slug: "sofa-cleaning",
@@ -68,6 +74,7 @@ export const categories: Category[] = [
         priceFrom: 899,
         duration: "45-60 min",
         icon: "/icons/sofa.svg",
+        img: "/sofa-cleaning-kochi-ohserve-1.webp",
       },
       {
         slug: "newborn-home-cleaning",
@@ -77,6 +84,7 @@ export const categories: Category[] = [
         priceFrom: 1799,
         duration: "2-3 hrs",
         icon: "/icons/baby.svg",
+        img: "/newborn-baby-home-cleaning-kochi-ohserve.webp",
       },
     ],
   },
@@ -95,6 +103,7 @@ export const categories: Category[] = [
         priceFrom: 399,
         duration: "30-60 min",
         icon: "/icons/drop.svg",
+        img: "/icons/drop.svg",
       },
       {
         slug: "faucet-installation",
@@ -103,6 +112,7 @@ export const categories: Category[] = [
         priceFrom: 349,
         duration: "30-45 min",
         icon: "/icons/wrench.svg",
+        img: "/icons/wrench.svg",
       },
       {
         slug: "bathroom-fittings",
@@ -111,6 +121,7 @@ export const categories: Category[] = [
         priceFrom: 599,
         duration: "1-2 hrs",
         icon: "/icons/shower.svg",
+        img: "/icons/shower.svg",
       },
     ],
   },
@@ -129,6 +140,7 @@ export const categories: Category[] = [
         priceFrom: 349,
         duration: "30-60 min",
         icon: "/icons/zap.svg",
+        img: "/icons/zap.svg",
       },
       {
         slug: "appliance-installation",
@@ -137,6 +149,7 @@ export const categories: Category[] = [
         priceFrom: 299,
         duration: "20-40 min",
         icon: "/icons/bulb.svg",
+        img: "/icons/bulb.svg",
       },
       {
         slug: "switchboard-upgrade",
@@ -145,6 +158,7 @@ export const categories: Category[] = [
         priceFrom: 899,
         duration: "1-2 hrs",
         icon: "/icons/plug.svg",
+        img: "/icons/plug.svg",
       },
     ],
   },
@@ -163,6 +177,7 @@ export const categories: Category[] = [
         priceFrom: 349,
         duration: "30-60 min",
         icon: "/icons/hammer.svg",
+        img: "/icons/hammer.svg",
       },
       {
         slug: "custom-fittings",
@@ -171,6 +186,7 @@ export const categories: Category[] = [
         priceFrom: 1499,
         duration: "Varies",
         icon: "/icons/ruler.svg",
+        img: "/icons/ruler.svg",
       },
     ],
   },
@@ -189,6 +205,7 @@ export const categories: Category[] = [
         priceFrom: 399,
         duration: "30-90 min",
         icon: "/icons/fridge.svg",
+        img: "/icons/fridge.svg",
       },
       {
         slug: "tv-wall-mounting",
@@ -197,6 +214,7 @@ export const categories: Category[] = [
         priceFrom: 499,
         duration: "45-60 min",
         icon: "/icons/tv.svg",
+        img: "/icons/tv.svg",
       },
       {
         slug: "pest-control",
@@ -205,6 +223,7 @@ export const categories: Category[] = [
         priceFrom: 999,
         duration: "1-1.5 hrs",
         icon: "/icons/bug.svg",
+        img: "/icons/bug.svg",
       },
     ],
   },
@@ -312,5 +331,4 @@ export const companyInfo = {
   facebook: "https://www.facebook.com/profile.php?id=61585169570013",
   instagram: "https://www.instagram.com/ohserve",
 };
-
 
