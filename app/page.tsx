@@ -3,6 +3,7 @@ import Image from "next/image";
 import { BadgeCheck } from "lucide-react";
 import IconTile from "@/components/IconTile";
 import HeroSlider from "@/components/HeroSlider";
+import GoogleReviews from "@/components/GoogleReviews";
 import { categories } from "@/lib/data";
 
 // Curated cleaning services for the "Most booked services" grid.
@@ -89,6 +90,8 @@ export default function HomePage() {
           <Stat value="6" label="Service categories" />
         </div>
       </section>
+
+      <GoogleReviews />
 
       {/* Most booked services */}
       <section className="max-w-content mx-auto px-6 py-20">
@@ -226,7 +229,7 @@ export default function HomePage() {
                   <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
                 </svg>
                 <div>
-                  <p className="font-display font-bold text-xl leading-none">4.8</p>
+                  <p className="font-display font-bold text-xl leading-none">5</p>
                   <p className="text-xs text-ink/55 mt-1">Service Rating*</p>
                 </div>
               </div>
