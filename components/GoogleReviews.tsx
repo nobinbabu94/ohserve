@@ -1,7 +1,17 @@
 import Link from "next/link";
-import { ExternalLink, Star } from "lucide-react";
 
-const googleReviews = [
+type Review = {
+  name: string;
+  quote: string;
+  // Optional — fill these in only when you know them for sure.
+  // They show up on the card automatically when present.
+  service?: string; // e.g. "Deep Cleaning"
+  area?: string; // e.g. "Kakkanad"
+};
+
+// Only real reviews from your Google Business Profile belong here.
+// To add more, copy a block, paste the customer's actual text and name.
+const googleReviews: Review[] = [
   {
     name: "George Jacob",
     quote:
@@ -19,7 +29,89 @@ const googleReviews = [
   },
 ];
 
+const RATING = "5.0";
+const REVIEW_COUNT = 161;
 const googleReviewsUrl = "https://share.google/KpO4I5wFwguV57Y7L";
+
+// Themes taken straight from the reviews shown below.
+const themes = [
+  "Professional team",
+  "Attention to detail",
+  "Thorough cleaning",
+  "Spotless results",
+];
+
+function StarIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <path d="M15 3h6v6" />
+      <path d="M10 14 21 3" />
+    </svg>
+  );
+}
+
+function QuoteIcon() {
+  return (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M7.17 6A4.17 4.17 0 0 0 3 10.17V18h7v-7H6.5a.5.5 0 0 1-.5-.5v-.33A1.17 1.17 0 0 1 7.17 8H8V6h-.83Zm9 0A4.17 4.17 0 0 0 12 10.17V18h7v-7h-3.5a.5.5 0 0 1-.5-.5v-.33A1.17 1.17 0 0 1 16.17 8H17V6h-.83Z" />
+    </svg>
+  );
+}
+
+function Stars({ size }: { size: number }) {
+  return (
+    <div
+      role="img"
+      aria-label="5 out of 5 stars"
+      className="flex gap-0.5 text-orange"
+    >
+      {Array.from({ length: 5 }, (_, i) => (
+        <StarIcon key={i} size={size} />
+      ))}
+    </div>
+  );
+}
+
+function initials(name: string) {
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0]?.[0] ?? "";
+  const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+  return (first + last).toUpperCase();
+}
 
 export default function GoogleReviews() {
   return (
@@ -27,85 +119,107 @@ export default function GoogleReviews() {
       aria-labelledby="google-reviews-heading"
       className="max-w-content mx-auto px-6 py-16 sm:py-20"
     >
+      {/* Header */}
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-        <div>
+        <div className="max-w-xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-orange-dark">
-            From our Google Business Profile
+            Google reviews
           </p>
           <h2
             id="google-reviews-heading"
-            className="mt-2 font-display text-2xl font-bold sm:text-3xl"
+            className="mt-2 font-display text-2xl font-bold leading-tight sm:text-3xl"
           >
-            Loved by customers across Kochi
+            What Kochi homeowners say about OhServe
           </h2>
+          <p className="mt-3 text-ink/65 leading-relaxed">
+            Real feedback from customers who booked cleaning with us across
+            shared on our Google Business Profile.
+          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <span className="font-display text-3xl font-bold">5.0</span>
+        <div className="flex items-center gap-4 rounded-2xl border border-line bg-mist px-5 py-4 self-start sm:self-auto">
+          <span className="font-display text-4xl font-bold leading-none">
+            {RATING}
+          </span>
           <div>
-            <div
-              role="img"
-              aria-label="5 out of 5 stars"
-              className="flex gap-0.5 text-orange"
-            >
-              {Array.from({ length: 5 }, (_, index) => (
-                <Star
-                  key={index}
-                  aria-hidden="true"
-                  size={17}
-                  fill="currentColor"
-                  strokeWidth={1.5}
-                />
-              ))}
-            </div>
-            <p className="mt-1 text-xs text-ink/60">161 Google reviews</p>
+            <Stars size={18} />
+            <p className="mt-1.5 text-xs text-ink/60">
+              Based on {REVIEW_COUNT} Google reviews
+            </p>
           </div>
         </div>
       </div>
 
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      {/* Review cards — swipeable on mobile, 3-up grid on desktop */}
+      <div className="mt-8 -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mx-0 md:grid md:grid-cols-3 md:gap-5 md:overflow-visible md:px-0 md:pb-0">
         {googleReviews.map((review) => (
           <figure
             key={review.name}
-            className="flex h-full flex-col rounded-2xl border border-line bg-white p-6"
+            className="relative flex w-[85%] shrink-0 snap-center flex-col rounded-2xl border border-line bg-white p-6 md:w-auto"
           >
-            <div
-              role="img"
-              aria-label="5 out of 5 stars"
-              className="flex gap-0.5 text-orange"
-            >
-              {Array.from({ length: 5 }, (_, index) => (
-                <Star
-                  key={index}
-                  aria-hidden="true"
-                  size={16}
-                  fill="currentColor"
-                  strokeWidth={1.5}
-                />
-              ))}
-            </div>
-            <blockquote className="mt-4 flex-1 text-sm leading-relaxed text-ink/75">
+            <span className="absolute right-5 top-5 text-orange-light">
+              <QuoteIcon />
+            </span>
+
+            <Stars size={16} />
+
+            <blockquote className="mt-4 flex-1 text-[15px] leading-relaxed text-ink/80">
               “{review.quote}”
             </blockquote>
-            <figcaption className="mt-6 border-t border-line pt-4">
-              <cite className="not-italic font-semibold text-ink">
-                {review.name}
-              </cite>
-              <p className="mt-1 text-xs text-ink/55">Google review</p>
+
+            <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-4">
+              <span
+                aria-hidden="true"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-orange-light text-sm font-bold text-orange-dark"
+              >
+                {initials(review.name)}
+              </span>
+              <div className="min-w-0">
+                <cite className="block truncate not-italic font-semibold text-ink">
+                  {review.name}
+                </cite>
+                <p className="mt-0.5 text-xs text-ink/55">
+                  Google review
+                  {review.service ? ` · ${review.service}` : ""}
+                  {review.area ? ` · ${review.area}` : ""}
+                </p>
+              </div>
             </figcaption>
           </figure>
         ))}
       </div>
 
-      <div className="mt-7 text-center">
+      {/* Common themes */}
+      <div className="mt-8 flex flex-wrap items-center gap-2.5">
+        <span className="text-xs font-medium text-ink/50">
+          Common themes in these reviews:
+        </span>
+        {themes.map((theme) => (
+          <span
+            key={theme}
+            className="rounded-full border border-line bg-paper px-3.5 py-1.5 text-xs font-medium text-ink/70"
+          >
+            {theme}
+          </span>
+        ))}
+      </div>
+
+      {/* CTAs */}
+      <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <Link
+          href="/contact"
+          className="inline-flex w-full items-center justify-center rounded-full bg-ink px-7 py-3.5 text-sm font-semibold text-paper transition-colors hover:bg-orange-dark focus-ring sm:w-auto"
+        >
+          Get a free quote
+        </Link>
         <Link
           href={googleReviewsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-line px-5 py-3 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange-light focus-ring"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-line px-6 py-3.5 text-sm font-semibold text-ink transition-colors hover:border-orange hover:bg-orange-light focus-ring sm:w-auto"
         >
-          Read all 161 reviews on Google
-          <ExternalLink aria-hidden="true" size={16} />
+          Read all {REVIEW_COUNT} reviews on Google
+          <ExternalLinkIcon size={15} />
         </Link>
       </div>
     </section>
