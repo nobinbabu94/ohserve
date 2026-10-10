@@ -69,7 +69,7 @@ export default function HomePage() {
 
           <IconTile
             href="/membership"
-            icon="/property-care-clean.webp"
+            icon="/Housemaid-kochi-ohserve.webp"
             label="Property Care"
             badge="Popular"
           />
