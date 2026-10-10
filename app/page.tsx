@@ -58,18 +58,19 @@ export default function HomePage() {
               href={`/services/${category.slug}`}
               icon={category.icon}
               label={category.name}
+              badge={category.slug === "cleaning" ? "Most requested" : undefined}
             />
           ))}
 
           <IconTile
             href="/maid-services"
-            icon="/home-cleaning-ohserve-kochi.webp"
+            icon="/Housemaid-kochi-ohserve.webp"
             label="Maid Services"
           />
 
           <IconTile
             href="/membership"
-            icon="/Housemaid-kochi-ohserve.webp"
+            icon="/property-care-clean.webp"
             label="Property Care"
             badge="Popular"
           />
