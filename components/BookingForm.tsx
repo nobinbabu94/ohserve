@@ -2,6 +2,7 @@
 
 import { useId, useState, type FormEvent } from "react";
 import { Loader2, CheckCircle2 } from "lucide-react";
+import Link from "next/link";
 import { pushDataLayer } from "@/lib/analytics";
 
 type Props = {
@@ -314,6 +315,12 @@ export default function BookingForm({
       <p className="text-xs text-ink/50">
         We&apos;ll call or WhatsApp you to confirm — no payment
         is taken here.
+      </p>
+      <p className="text-xs text-ink/50">
+        By sending a request, you ask us to use these details to respond to your enquiry. See our{" "}
+        <Link href="/privacy-policy" className="text-orange-dark underline focus-ring rounded-sm">
+          Privacy Policy
+        </Link>.
       </p>
     </form>
   );
