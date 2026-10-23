@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Image as ImageIcon } from "lucide-react";
 import PricingCard from "@/components/PricingCard";
 import { membershipPlans } from "@/lib/data";
 
@@ -42,20 +41,27 @@ function PropertyImageSlot({
 export default function MembershipPage() {
   return (
     <section className="max-w-content mx-auto px-6 py-16">
-      <div className="max-w-xl">
-        <h1 className="font-display font-bold text-4xl">Property Care Plans</h1>
-        <p className="text-base text-ink/65 mt-4 leading-relaxed">
-          Flexible plans built around how often your property needs
-          attention — every visit is documented, professional, and thorough.
+      <div className="max-w-2xl">
+        <p className="text-base font-semibold uppercase tracking-wide text-orange-dark">
+          Property management in Kochi, Kerala
         </p>
+        <h1 className="font-display font-bold text-4xl mt-3">
+          Property Care You Can Trust. Service You Can See.
+        </h1>
+        <p className="text-base text-ink/65 mt-4 leading-relaxed">
+          At Ohserve Solutions, we believe property ownership should bring you
+          peace of mind, not a list of things to worry about. Whether you live
+          nearby or manage your property from miles away, we combine attentive
+          property care, clear communication, and accountable service to help
+          you stay in control.
+        </p>
+        <Link
+          href="/contact"
+          className="focus-ring mt-6 inline-flex rounded-lg bg-orange px-5 py-3 text-base font-semibold text-white transition-colors hover:bg-orange-dark"
+        >
+          Request a Property Consultation
+        </Link>
       </div>
-
-      <div className="grid gap-6 lg:grid-cols-3 mt-12">
-        {membershipPlans.map((plan) => (
-          <PricingCard key={plan.slug} plan={plan} />
-        ))}
-      </div>
-
       <article className="mt-20 border-t border-line pt-14">
         <div className="max-w-3xl">
           <p className="text-base font-semibold uppercase tracking-wide text-orange-dark">
@@ -187,6 +193,122 @@ export default function MembershipPage() {
           </p>
         </section>
 
+        <section className="mt-16">
+          <h2 className="font-display text-2xl font-bold">
+            Why Property Owners Choose Ohserve Solutions
+          </h2>
+          <div className="mt-6 grid gap-x-10 gap-y-7 sm:grid-cols-2">
+            <div>
+              <h3 className="font-semibold">Your Property. Clearly Accounted For.</h3>
+              <p className="mt-2 text-base text-ink/70 leading-relaxed">
+                Documented visits, detailed updates, and visual reports help you
+                understand your property&apos;s condition and make informed
+                decisions even when you are away.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Clear Communication, Without the Follow-Ups.</h3>
+              <p className="mt-2 text-base text-ink/70 leading-relaxed">
+                Stay updated on inspections, maintenance, and important
+                developments, including what needs attention and what happens next.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Small Concerns. Timely Action.</h3>
+              <p className="mt-2 text-base text-ink/70 leading-relaxed">
+                We work to identify issues early, coordinate appropriate
+                maintenance, and keep you informed so small concerns do not
+                become bigger surprises.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold">Local Attention. Professional Accountability.</h3>
+              <p className="mt-2 text-base text-ink/70 leading-relaxed">
+                For owners living elsewhere, we provide a dependable local point
+                of contact to coordinate property needs and provide visibility
+                over agreed activities.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-16">
+          <h2 className="font-display text-2xl font-bold">Your Journey With Ohserve Solutions</h2>
+          <p className="mt-3 max-w-3xl text-base text-ink/70 leading-relaxed">
+            We start by understanding your property, expectations, and the level
+            of support you need. You get clarity on service and pricing before
+            deciding how to proceed.
+          </p>
+          <ol className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              ["01", "Tell us about your property", "Share its location, current circumstances, and the services you are interested in."],
+              ["02", "Connect with our team", "We review your enquiry and get in touch to understand your needs and answer initial questions."],
+              ["03", "Discuss your requirements", "Tell us about your expectations, concerns, and current maintenance or management challenges."],
+              ["04", "Share the property details", "Photographs, location information, property features, and specific concerns help us understand the property."],
+              ["05", "Review service and pricing", "We explain the recommended scope, applicable charges, and relevant terms before arranging the next step."],
+              ["06", "Receive a tailored recommendation", "If an assessment is appropriate, we coordinate it with you and outline priorities and next steps."],
+            ].map(([number, title, description]) => (
+              <li key={number} className="border-t border-line pt-5">
+                <p className="text-sm font-semibold text-orange-dark">{number}</p>
+                <h3 className="mt-2 font-display text-lg font-bold">{title}</h3>
+                <p className="mt-2 text-base text-ink/70 leading-relaxed">{description}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="mt-16 rounded-2xl border border-line p-7 sm:p-10">
+          <h2 className="font-display text-2xl font-bold">Before We Get Started</h2>
+          <p className="mt-3 text-base text-ink/70 leading-relaxed">
+            Please share the property location, recent photographs where
+            available, key amenities, and known maintenance or management
+            concerns. We will discuss service options, scope, and charges before
+            proceeding with any agreed assessment or service.
+          </p>
+          <p className="mt-3 text-base font-semibold text-ink">
+            An initial discussion is an opportunity to explore your options,
+            with no obligation to sign up.
+          </p>
+        </section>
+
+        <section className="mt-16 max-w-3xl">
+          <h2 className="font-display text-2xl font-bold">Frequently Asked Questions</h2>
+          <div className="mt-5 divide-y divide-line border-y border-line">
+            {[
+              ["What types of properties can Ohserve Solutions support?", "Our services can be tailored to the property type and level of assistance required. Contact our team with your property details so we can discuss suitable options."],
+              ["Do I need to commit before discussing my property?", "No. An initial enquiry lets us understand your requirements and explain available options. Any paid service, assessment, or site visit should be agreed in advance."],
+              ["What information should I provide?", "The property location, photographs, basic details, amenities, and known issues are helpful. We may request more information depending on the service."],
+              ["Can I manage my property while living outside India?", "We can discuss support options for owners who live elsewhere, including property-related coordination and communication. Available services depend on your requirements and agreed scope."],
+              ["How will I stay informed about my property?", "We agree on communication and reporting based on the service selected, with updates about relevant inspections, maintenance, outstanding concerns, and developments."],
+              ["What happens if an urgent maintenance issue arises?", "We can agree how urgent issues are reported, assessed, and coordinated, including escalation steps. Response arrangements and additional costs should be clarified before service begins."],
+            ].map(([question, answer]) => (
+              <details key={question} className="py-5">
+                <summary className="cursor-pointer list-none font-semibold focus-ring rounded-sm">
+                  {question}
+                </summary>
+                <p className="mt-3 text-base text-ink/70 leading-relaxed">{answer}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
+        <section className="mt-16 border-t border-line pt-14">
+          <div className="max-w-3xl">
+            <h2 className="font-display text-2xl font-bold">
+              Property Care Plans for Homes That Need Regular Attention
+            </h2>
+            <p className="mt-3 text-base text-ink/70 leading-relaxed">
+              Choose a visit frequency that suits your property. Each visit is
+              documented, and the plan details below outline the included checks
+              and care.
+            </p>
+          </div>
+          <div className="grid gap-6 lg:grid-cols-3 mt-8">
+            {membershipPlans.map((plan) => (
+              <PricingCard key={plan.slug} plan={plan} />
+            ))}
+          </div>
+        </section>
         <section className="mt-16">
           <h2 className="font-display text-2xl font-bold">
             Why Choose Ohserve?
