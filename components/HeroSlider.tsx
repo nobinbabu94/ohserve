@@ -35,7 +35,7 @@ const slides: Slide[] = [
     title: "Not home often? We've got it covered",
     subtitle: "Scheduled Property Care visits with photo reports, every time.",
     cta: "See plans",
-    href: "/membership",
+    href: "/property-management",
     icon: ShieldCheck,
     bg: "bg-ink",
     text: "text-paper",

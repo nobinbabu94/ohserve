@@ -70,8 +70,8 @@ export default function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/membership" className="text-paper/80 hover:text-orange focus-ring rounded-sm">
-                Property Care Plans
+              <Link href="/property-management" className="text-paper/80 hover:text-orange focus-ring rounded-sm">
+                Property Management
               </Link>
             </li>
             <li>

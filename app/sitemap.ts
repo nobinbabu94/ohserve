@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/contact",
     "/privacy-policy",
     "/maid-services",
-    "/membership",
+    "/property-management",
     "/services",
     "/services/cleaning/home-cleaning",
     "/services/cleaning/office-cleaning",

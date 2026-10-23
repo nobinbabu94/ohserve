@@ -36,7 +36,7 @@ const cards: Card[] = [
     title: "Keep your property in safe hands",
     subtitle: "Property Care plans",
     cta: "Explore",
-    href: "/membership",
+    href: "/property-management",
     icon: ShieldCheck,
     bg: "bg-orange-light",
     text: "text-ink",

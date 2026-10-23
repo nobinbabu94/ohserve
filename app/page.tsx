@@ -69,9 +69,9 @@ export default function HomePage() {
           />
 
           <IconTile
-            href="/membership"
+            href="/property-management"
             icon="/property-care-clean.webp"
-            label="Property Care"
+            label="Property Management"
             badge="Popular"
           />
         </div>
